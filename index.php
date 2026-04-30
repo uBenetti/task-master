@@ -74,7 +74,7 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php endif; ?>
 
     <form method="POST" action="index.php" class="form-group">
-        <input type="text" name="title" placeholder="O que precisa ser feito?" autocomplete="off">
+        <input type="text" name="title" placeholder="Tarefa:" autocomplete="off">
         <button type="submit">Adicionar</button>
     </form>
 
