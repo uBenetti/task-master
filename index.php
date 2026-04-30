@@ -49,21 +49,8 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Master - Spaghetti</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #ad3333; color: #333; display: flex; justify-content: center; padding-top: 50px; }
-        .container { background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 500px; }
-        h1 { font-size: 1.5rem; text-align: center; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        .error { color: #dc2626; background: #fee2e2; padding: 10px; border-radius: 4px; font-size: 0.9rem; }
-        .form-group { display: flex; gap: 10px; margin-top: 20px; margin-bottom: 20px; }
-        input[type="text"] { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
-        button { background: #2563eb; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; }
-        button:hover { background: #1d4ed8; }
-        ul { list-style: none; padding: 0; }
-        li { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #eee; }
-        li.done span { text-decoration: line-through; color: #9ca3af; }
-        .actions a { text-decoration: none; margin-left: 10px; cursor: pointer; }
-    </style>
-</head>
+    <link rel="stylesheet" href="style.css">
+    </head>
 <body>
 
 <div class="container">
@@ -75,6 +62,8 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <form method="POST" action="index.php" class="form-group">
         <input type="text" name="title" placeholder="Tarefa:" autocomplete="off">
+        <input type="text" name="title" placeholder="Responsável:" autocomplete="off">
+        <input type="date" name="date">
         <button type="submit">Adicionar</button>
     </form>
 
