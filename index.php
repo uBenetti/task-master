@@ -63,7 +63,7 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <form method="POST" action="index.php" class="form-group">
         <input type="text" name="title" placeholder="Tarefa:" autocomplete="off">
         <input type="text" name="title" placeholder="Responsável:" autocomplete="off">
-        <input type="date" name="date">
+        <input type="date" class="calendario">
         <button type="submit">Adicionar</button>
     </form>
 
