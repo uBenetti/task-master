@@ -6,6 +6,9 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $pdo->exec("CREATE TABLE IF NOT EXISTS tasks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
+    description TEXT,
+    due_date TEXT NOT NULL,
+    responsible TEXT NOT NULL,
     done INTEGER DEFAULT 0
 )");
 
@@ -13,16 +16,22 @@ $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title'])) {
     $title = trim($_POST['title']);
-    
-    if (empty($title)) {
-        $error = "O título da tarefa não pode estar vazio!";
+    $description = $_POST['description'] ?? '';
+    $due_date = $_POST['due_date'] ?? '';
+    $responsible = trim($_POST['responsible'] ?? '');
+    if (empty($title) || empty($due_date) || empty($responsible)) {
+        $error = "Título, responsável e data de vencimento são obrigatórios!";
     } else {
-        $stmt = $pdo->prepare("INSERT INTO tasks (title) VALUES (:title)");
+        $stmt = $pdo->prepare("
+        INSERT INTO tasks (title, description, due_date, responsible)
+        VALUES (:title, :description, :due_date, :responsible)
+    ");
         $stmt->bindValue(':title', $title);
+        $stmt->bindValue(':description', $description);
+        $stmt->bindValue(':due_date', $due_date);
+        $stmt->bindValue(':responsible', $responsible);
+
         $stmt->execute();
-        
-        header("Location: index.php");
-        exit;
     }
 }
 
@@ -54,23 +63,33 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
 
 <div class="container">
-    <h1>Task Master (Spaghetti Edition)</h1>
+    <h1>Task Master</h1>
 
     <?php if ($error): ?>
         <div class="error"><?php echo $error; ?></div>
     <?php endif; ?>
 
     <form method="POST" action="index.php" class="form-group">
-        <input type="text" name="title" placeholder="Tarefa:" autocomplete="off">
-        <input type="text" name="title" placeholder="Responsável:" autocomplete="off">
-        <input type="date" class="calendario">
+        <input type="text" name="title" placeholder="Tarefa:" required>
+        <textarea name="description" placeholder="Descrição (opcional): "></textarea>
+        <input type="text" name="responsible" placeholder="Responsável: " required>
+        <input type="date" name="due_date" class="calendário" required>
         <button type="submit">Adicionar</button>
     </form>
 
     <ul>
         <?php foreach ($tasks as $task): ?>
             <li class="<?php echo $task['done'] ? 'done' : ''; ?>">
-                <span><?php echo htmlspecialchars($task['title']); ?></span>
+                <div>
+                    <strong><?php echo htmlspecialchars($task['title']); ?></strong><br>
+
+                    <small>
+                        Obs: <?php echo htmlspecialchars($task['description'] ?: 'Sem descrição'); ?>
+                    </small><br>
+
+                    <?php echo htmlspecialchars($task['due_date']); ?><br>
+                    Responsável: <?php echo htmlspecialchars($task['responsible']); ?>
+                </div>
                 
                 <div class="actions">
                     <?php if (!$task['done']): ?>
