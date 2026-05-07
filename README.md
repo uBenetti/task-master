@@ -9,7 +9,7 @@ Um gerenciador simples de tarefas desenvolvido em PHP com SQLite que até o mome
 - Definir data de vencimento
 - Definir responsável
 - Marcar tarefa como concluída
-- Salvar no banco de bados local
+- Salvar no banco de dados local
 - Excluir tarefas
 
 ## Tecnologias e ferramentas
